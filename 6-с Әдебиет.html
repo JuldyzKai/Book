@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>6-сынып қазақ әдебиеті - Интерактивті оқулық</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --white: #FFFFFF;
+            --light-green: #E8F5E9;
+            --green: #4CAF50;
+            --yellow: #FFEB3B;
+            --red: #F44336;
+            --blue: #2196F3;
+            --dark-blue: #0d47a1;
+            --purple: #9C27B0;
+            --dark-purple: #6a1b9a;
+            --light-blue: #E3F2FD;
+            --light-yellow: #FFF8E1;
+            --light-purple: #F3E5F5;
+            --light-cyan: #E0F7FA;
+            --light-lime: #F1F8E9;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #e0f7fa, #f1f8e9);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding-bottom: 60px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--green), var(--dark-blue));
+            color: white;
+            padding: 1.2rem;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .logo i {
+            font-size: 2.2rem;
+            color: var(--yellow);
+        }
+        
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
+        
+        .nav-controls {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s;
+        }
+        
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        
+        .book-cover {
+            text-align: center;
+            margin: 30px 0;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .book-cover img {
+            max-width: 350px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+            border: 5px solid white;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .book-cover:hover img {
+            transform: scale(1.03);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+        }
+        
+        .book-cover .caption {
+            margin-top: 15px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--dark-blue);
+            background: rgba(255, 255, 255, 0.7);
+            display: inline-block;
+            padding: 8px 25px;
+            border-radius: 30px;
+        }
+        
+        .content-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .chapter-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 20px;
+            width: calc(33% - 25px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: all 0.4s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .chapter-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: var(--green);
+        }
+        
+        .chapter-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+        }
+        
+        .chapter-card h3 {
+            color: var(--dark-blue);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            border-bottom: 3px solid var(--yellow);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .chapter-card h3 i {
+            color: var(--green);
+        }
+        
+        .chapter-card p {
+            min-height: 60px;
+            color: #555;
+        }
+        
+        .media-container {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .media-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 8px 15px;
+            border-radius: 30px;
+            background-color: var(--blue);
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s;
+            gap: 6px;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .media-btn:hover {
+            background-color: var(--dark-blue);
+            transform: scale(1.05);
+        }
+        
+        .task-btn {
+            background-color: var(--yellow);
+            color: #333;
+        }
+        
+        .task-btn:hover {
+            background-color: var(--red);
+            color: white;
+        }
+        
+        .download-btn {
+            background-color: var(--green);
+        }
+        
+        .download-btn:hover {
+            background-color: var(--dark-blue);
+        }
+        
+        /* Chapter Content Styles */
+        .chapter-content {
+            display: none;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-top: 30px;
+            position: relative;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .chapter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid var(--yellow);
+        }
+        
+        .chapter-title {
+            color: var(--dark-blue);
+            font-size: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .back-btn {
+            background: var(--blue);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .back-btn:hover {
+            background: var(--dark-blue);
+        }
+        
+        .chapter-body {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .chapter-text {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .chapter-text h4 {
+            color: var(--green);
+            margin: 20px 0 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--light-green);
+        }
+        
+        .chapter-text p {
+            margin-bottom: 15px;
+            text-align: justify;
+            line-height: 1.8;
+        }
+        
+        .chapter-text ul {
+            padding-left: 20px;
+            margin: 15px 0;
+        }
+        
+        .chapter-text li {
+            margin-bottom: 10px;
+            padding-left: 10px;
+        }
+        
+        .chapter-image {
+            flex: 1;
+            min-width: 300px;
+            text-align: center;
+        }
+        
+        .chapter-image img {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            margin-bottom: 20px;
+            border: 3px solid var(--light-green);
+        }
+        
+        .chapter-image .caption {
+            font-style: italic;
+            color: #666;
+        }
+        
+        .chapter-media {
+            margin-top: 30px;
+            background: var(--light-green);
+            padding: 20px;
+            border-radius: 10px;
+        }
+        
+        .media-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--dark-blue);
+            margin-bottom: 15px;
+        }
+        
+        .media-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .media-item {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+        
+        .media-item i {
+            font-size: 2.5rem;
+            color: var(--blue);
+            margin-bottom: 10px;
+        }
+        
+        .media-item h5 {
+            color: var(--dark-blue);
+            margin-bottom: 8px;
+        }
+        
+        footer {
+            background: linear-gradient(135deg, var(--dark-blue), var(--green));
+            color: white;
+            text-align: center;
+            padding: 25px;
+            margin-top: 50px;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .footer-section p {
+            margin-bottom: 10px;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        .copyright {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        @media (max-width: 900px) {
+            .chapter-card {
+                width: calc(50% - 25px);
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .chapter-card {
+                width: 100%;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .nav-controls {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+        
+        /* Chapter-specific backgrounds */
+        .chapter-content[data-chapter="1"] { background-color: var(--light-green); }
+        .chapter-content[data-chapter="2"] { background-color: var(--light-yellow); }
+        .chapter-content[data-chapter="3"] { background-color: var(--light-blue); }
+        .chapter-content[data-chapter="4"] { background-color: var(--light-purple); }
+        .chapter-content[data-chapter="5"] { background-color: var(--light-cyan); }
+        .chapter-content[data-chapter="6"] { background-color: var(--light-lime); }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-book-open"></i>
+                <div class="logo-text">6-сынып қазақ әдебиеті</div>
+            </div>
+            <div class="nav-controls">
+                <button class="nav-btn" id="homeBtn">
+                    <i class="fas fa-home"></i> Басты бет
+                </button>
+                <button class="nav-btn" id="contentsBtn">
+                    <i class="fas fa-list"></i> Мазмұны
+                </button>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <!-- Book Cover Section -->
+        <div class="book-cover" id="bookCover">
+            <img src="БЕТ1.jpg" alt="6-сынып қазақ әдебиеті оқулығы">
+            <div class="caption">Оқулықты ашу үшін басыңыз</div>
+        </div>
+        
+        <!-- Chapters Grid -->
+        <div class="content-section" id="chaptersGrid">
+            <!-- 1-тарау -->
+            <div class="chapter-card" data-chapter="1">
+                <h3><i class="fas fa-folder-open"></i> 1. Қазақ фольклоры</h3>
+                <p>Халықтың ауыз әдебиеті, жырлар, ертегілер, мақал-мәтелдер</p>
+                <div class="media-container">
+                    <button class="media-btn"><i class="fas fa-headphones"></i> Аудио</button>
+                    <button class="media-btn"><i class="fas fa-video"></i> Видео</button>
+                    <button class="media-btn task-btn"><i class="fas fa-tasks"></i> Тапсырма</button>
+                    <button class="media-btn download-btn"><i class="fas fa-download"></i> Жүктеу</button>
+                </div>
+            </div>
+            
+            <!-- 2-тарау -->
+            <div class="chapter-card" data-chapter="2">
+                <h3><i class="fas fa-book"></i> 2. Ертегілер әлемі</h3>
+                <p>Қазақ халқының дәстүрлі ертегілері, олардың түрлері мен ерекшеліктері</p>
+                <div class="media-container">
+                    <button class="media-btn"><i class="fas fa-headphones"></i> Аудио</button>
+                    <button class="media-btn"><i class="fas fa-video"></i> Видео</button>
+                    <button class="media-btn task-btn"><i class="fas fa-tasks"></i> Тапсырма</button>
+                    <button class="media-btn download-btn"><i class="fas fa-download"></i> Жүктеу</button>
+                </div>
+            </div>
+            
+            <!-- 3-тарау -->
+            <div class="chapter-card" data-chapter="3">
+                <h3><i class="fas fa-scroll"></i> 3. Дастандар</h3>
+                <p>"Қозы Көрпеш - Баян сұлу", "Ер Тарғын" сияқты дастандар</p>
+                <div class="media-container">
+                    <button class="media-btn"><i class="fas fa-headphones"></i> Аудио</button>
+                    <button class="media-btn"><i class="fas fa-video"></i> Видео</button>
+                    <button class="media-btn task-btn"><i class="fas fa-tasks"></i> Тапсырма</button>
+                    <button class="media-btn download-btn"><i class="fas fa-download"></i> Жүктеу</button>
+                </div>
+            </div>
+            
+            <!-- 4-тарау -->
+            <div class="chapter-card" data-chapter="4">
+                <h3><i class="fas fa-pen-fancy"></i> 4. Ақындар шығармалары</h3>
+                <p>Жамбыл, Абай, Мағжан, Мұқағали шығармалары</p>
+                <div class="media-container">
+                    <button class="media-btn"><i class="fas fa-headphones"></i> Аудио</button>
+                    <button class="media-btn"><i class="fas fa-video"></i> Видео</button>
+                    <button class="media-btn task-btn"><i class="fas fa-tasks"></i> Тапсырма</button>
+                    <button class="media-btn download-btn"><i class="fas fa-download"></i> Жүктеу</button>
+                </div>
+            </div>
+            
+            <!-- 5-тарау -->
+            <div class="chapter-card" data-chapter="5">
+                <h3><i class="fas fa-book-reader"></i> 5. Қазақ прозасы</h3>
+                <p>М.Әуезов, Ғ.Мүсірепов, С.Мұқанов шығармалары</p>
+                <div class="media-container">
+                    <button class="media-btn"><i class="fas fa-headphones"></i> Аудио</button>
+                    <button class="media-btn"><i class="fas fa-video"></i> Видео</button>
+                    <button class="media-btn task-btn"><i class="fas fa-tasks"></i> Тапсырма</button>
+                    <button class="media-btn download-btn"><i class="fas fa-download"></i> Жүктеу</button>
+                </div>
+            </div>
+            
+            <!-- 6-тарау -->
+            <div class="chapter-card" data-chapter="6">
+                <h3><i class="fas fa-laptop"></i> 6. Заманауи қазақ әдебиеті</h3>
+                <p>Қазіргі заманғы қазақ жазушыларының шығармалары</p>
+                <div class="media-container">
+                    <button class="media-btn"><i class="fas fa-headphones"></i> Аудио</button>
+                    <button class="media-btn"><i class="fas fa-video"></i> Видео</button>
+                    <button class="media-btn task-btn"><i class="fas fa-tasks"></i> Тапсырма</button>
+                    <button class="media-btn download-btn"><i class="fas fa-download"></i> Жүктеу</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Chapter Content Sections (initially hidden) -->
+        <div class="chapter-content" id="chapter1" data-chapter="1">
+            <div class="chapter-header">
+                <h2 class="chapter-title"><i class="fas fa-folder-open"></i> 1. Қазақ фольклоры</h2>
+                <button class="back-btn"><i class="fas fa-arrow-left"></i> Артқа</button>
+            </div>
+            <div class="chapter-body">
+                <div class="chapter-text">
+                    <h4>Фольклордың маңызы мен сипаты</h4>
+                    <p>Қазақ фольклоры — қазақ халқының рухани байлығы, ғасырлар бойы жинақталған даналық қазынасы. Фольклордың негізгі формалары: жырлар, дастандар, ертегілер, аңыз-әңгімелер, жұмбақтар, нақыл сөздер, мақал-мәтелдер.</p>
+                    
+                    <h4>Фольклордың басты түрлері</h4>
+                    <ul>
+                        <li><strong>Жырлар</strong> - тарихи оқиғаларды баяндайтын поэмалар</li>
+                        <li><strong>Ертегілер</strong> - табиғат пен қоғамды сипаттайтын хикаялар</li>
+                        <li><strong>Дастандар</strong> - ұзақ поэмалар, батырлар туралы</li>
+                        <li><strong>Мақал-мәтелдер</strong> - халықтың тәжірибесі мен даналығы</li>
+                        <li><strong>Жұмбақтар</strong> - ойлауды дамытатын ойындық форма</li>
+                    </ul>
+                    
+                    <h4>Фольклордың қоғамдағы орны</h4>
+                    <p>Қазақ фольклоры халықтың тарихын, дәстүрін, әдет-ғұрпын, этикалық қағидаларын сақтап, келешек ұрпаққа жеткізудің басты құралы болды. Фольклор үлгілері балаларды тәрбиелеуде, адамгершілік қасиеттерді қалыптастыруда маңызды рөл атқарды.</p>
+                </div>
+                <div class="chapter-image">
+                    <img src="https://via.placeholder.com/400x300/4CAF50/FFFFFF?text=Қазақ+фольклоры" alt="Қазақ фольклоры">
+                    <div class="caption">Қазақтың дәстүрлі фольклорлық шығармалары</div>
+                </div>
+            </div>
+            <div class="chapter-media">
+                <h3 class="media-title"><i class="fas fa-play-circle"></i> Оқу материалдары</h3>
+                <div class="media-grid">
+                    <div class="media-item">
+                        <i class="fas fa-headphones"></i>
+                        <h5>Аудио оқу</h5>
+                        <p>Фольклор үлгілері</p>
+                    </div>
+                    <div class="media-item">
+                        <i class="fas fa-video"></i>
+                        <h5>Видео сабақ</h5>
+                        <p>Мақал-мәтелдер</p>
+                    </div>
+                    <div class="media-item">
+                        <i class="fas fa-tasks"></i>
+                        <h5>Тапсырмалар</h5>
+                        <p>10 тапсырма</p>
+                    </div>
+                    <div class="media-item">
+                        <i class="fas fa-download"></i>
+                        <h5>Қосымшалар</h5>
+                        <p>Жүктеп алу</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="chapter-content" id="chapter2" data-chapter="2">
+            <div class="chapter-header">
+                <h2 class="chapter-title"><i class="fas fa-book"></i> 2. Ертегілер әлемі</h2>
+                <button class="back-btn"><i class="fas fa-arrow-left"></i> Артқа</button>
+            </div>
+            <div class="chapter-body">
+                <div class="chapter-text">
+                    <h4>Ертегілердің түрлері</h4>
+                    <p>Қазақ ертегілері олардың мазмұны мен сипатына қарай бірнеше түрге бөлінеді: 
+                    <strong>хайуанаттар туралы ертегілер</strong>, <strong>күлкілі ертегілер</strong>, 
+                    <strong>сиқырлы ертегілер</strong>, <strong>тәрбиелік ертегілер</strong>.</p>
+                    
+                    <h4>Ертегілердің құрылымы</h4>
+                    <p>Қазақ ертегілерінің көпшілігі белгілі бір схема бойынша құралады: бастама, негізгі оқиға, шешім. 
+                    Ертегілердің басында "Ерте заманда..." деген сөздер жиі кездеседі. Негізгі оқиғада кейіпкерлердің сынақтары баяндалады. 
+                    Соңында жақсылық жеңіске жетіп, жамандық жазаланады.</p>
+                    
+                    <h4>Танымал ертегілер</h4>
+                    <ul>
+                        <li><strong>"Алдар Көсе"</strong> - айлакерлік пен ақылдылық туралы</li>
+                        <li><strong>"Қозы мен серке"</strong> - жануарлар әлемі туралы</li>
+                        <li><strong>"Ақбөбек"</strong> - сұлулық пен адалдық туралы</li>
+                        <li><strong>"Жіренше шешен"</strong> - ақыл-ой туралы</li>
+                    </ul>
+                    
+                    <h4>Ертегілердің тәрбиелік мәні</h4>
+                    <p>Ертегілер балаларға адамгершілік қасиеттерді - адалдық, батылдық, зеректік, жомарттық сияқты қасиеттерді үйретеді. 
+                    Сонымен қатар, жаман қылықтардың салдарын көрсетіп, олардан аулақ болуға үйретеді.</p>
+                </div>
+                <div class="chapter-image">
+                    <img src="https://via.placeholder.com/400x300/FFC107/000000?text=Ертегілер+әлемі" alt="Ертегілер әлемі">
+                    <div class="caption">Қазақтың дәстүрлі ертегілері</div>
+                </div>
+            </div>
+            <div class="chapter-media">
+                <h3 class="media-title"><i class="fas fa-play-circle"></i> Оқу материалдары</h3>
+                <div class="media-grid">
+                    <div class="media-item">
+                        <i class="fas fa-headphones"></i>
+                        <h5>Аудио ертегілер</h5>
+                        <p>5 ертегі</p>
+                    </div>
+                    <div class="media-item">
+                        <i class="fas fa-video"></i>
+                        <h5>Анимациялық ертегілер</h5>
+                        <p>3 бейне</p>
+                    </div>
+                    <div class="media-item">
+                        <i class="fas fa-tasks"></i>
+                        <h5>Тапсырмалар</h5>
+                        <p>8 тапсырма</p>
+                    </div>
+                    <div class="media-item">
+                        <i class="fas fa-book"></i>
+                        <h5>Ертегілер жинағы</h5>
+                        <p>PDF нұсқасы</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Other chapters (3-6) would be here with similar structure -->
+        
+    </div>
+    
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3><i class="fas fa-book"></i> Оқулық туралы</h3>
+                <p>6-сынып қазақ әдебиеті оқулығы - 2025-26 оқу жылына арналған</p>
+                <p>Барлық құқықтар қорғалған &copy; 2025</p>
+            </div>
+            <div class="footer-section">
+                <h3><i class="fas fa-user-graduate"></i> Авторы</h3>
+                <p>Қайназарова Жұлдыз Есімханқызы</p>
+                <p>Педагогика ғылымдарының кандидаты</p>
+            </div>
+            <div class="footer-section">
+                <h3><i class="fas fa-share-alt"></i> Байланыс</h3>
+                <p>email: zhuldiz.kainazarova@edumail.kz</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-telegram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>Барлық құқықтар сақталған. Мазмұнды көшіруге болмайды.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const bookCover = document.getElementById('bookCover');
+            const chaptersGrid = document.getElementById('chaptersGrid');
+            const chapterContents = document.querySelectorAll('.chapter-content');
+            const homeBtn = document.getElementById('homeBtn');
+            const contentsBtn = document.getElementById('contentsBtn');
+            
+            // Function to show chapter content
+            function showChapter(chapterId) {
+                chaptersGrid.style.display = 'none';
+                bookCover.style.display = 'none';
+                chapterContents.forEach(content => {
+                    content.style.display = 'none';
+                });
+                document.getElementById(chapterId).style.display = 'block';
+            }
+            
+            // Function to show main page
+            function showMainPage() {
+                chaptersGrid.style.display = 'flex';
+                bookCover.style.display = 'block';
+                chapterContents.forEach(content => {
+                    content.style.display = 'none';
+                });
+            }
+            
+            // Book cover click - show first chapter
+            bookCover.addEventListener('click', function() {
+                showChapter('chapter1');
+            });
+            
+            // Chapter cards click
+            document.querySelectorAll('.chapter-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    const chapterId = 'chapter' + this.getAttribute('data-chapter');
+                    showChapter(chapterId);
+                });
+            });
+            
+            // Back buttons in chapter content
+            document.querySelectorAll('.back-btn').forEach(btn => {
+                btn.addEventListener('click', showMainPage);
+            });
+            
+            // Home button click
+            homeBtn.addEventListener('click', showMainPage);
+            
+            // Contents button click
+            contentsBtn.addEventListener('click', function() {
+                chaptersGrid.style.display = 'flex';
+                bookCover.style.display = 'block';
+                chapterContents.forEach(content => {
+                    content.style.display = 'none';
+                });
+                
+                // Scroll to chapters grid
+                chaptersGrid.scrollIntoView({ behavior: 'smooth' });
+            });
+            
+            // Media buttons - prevent event propagation to chapter card
+            document.querySelectorAll('.media-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const chapter = this.closest('.chapter-card').getAttribute('data-chapter');
+                    const action = this.textContent.trim();
+                    alert('"' + action + '" батырмасы: ' + chapter + '-тарау');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
